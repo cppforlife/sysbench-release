@@ -21,3 +21,4 @@ This release was made to benchmark https://github.com/cppforlife/tidb-release.
 
 - [docs/errors.md](docs/errors.md)
 - http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html
+- http://benchmark-docs.readthedocs.io/en/latest/index.html
