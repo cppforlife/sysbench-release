@@ -1,0 +1,24 @@
+name: sysbench
+version: "1"
+commit_hash: 2a348b7
+uncommitted_changes: false
+jobs:
+- name: sysbench
+  version: 66b98c5829d17004af23c35bdddb1a78410ebd99
+  fingerprint: 66b98c5829d17004af23c35bdddb1a78410ebd99
+  sha1: dd1fe660bff8978060aa5a92aeea0dd2c3cfb6c8
+- name: sysbench_oltp
+  version: 771c3e708c595af89a20d44ec21bb39c3077efb3
+  fingerprint: 771c3e708c595af89a20d44ec21bb39c3077efb3
+  sha1: c74936a3fa5f113612929e87b453f222ee1fa6b6
+packages:
+- name: mysql-client
+  version: 85ca597801922b48813b420d2616298604736db9
+  fingerprint: 85ca597801922b48813b420d2616298604736db9
+  sha1: 6e0ad8231bda0e4ac117ff8ccf05bf3545094776
+  dependencies: []
+- name: sysbench
+  version: 9e6e351826a235e8b3d21cdd0f2285da4456c01b
+  fingerprint: 9e6e351826a235e8b3d21cdd0f2285da4456c01b
+  sha1: 2166adf012d63ab149e9b990f5cf976122cf5efe
+  dependencies: []
