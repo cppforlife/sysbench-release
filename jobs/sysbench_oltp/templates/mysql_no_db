@@ -1,0 +1,8 @@
+#!/bin/bash
+
+exec /var/vcap/packages/mysql-client/bin/mysql \
+  --host=<%= link("db").instances.first.address %> \
+  --port=<%= link("db").p("port") %> \
+  --user=<%= link("db").p("user") %> \
+  --password=<%= link("db").p("password") %> \
+  "$@"

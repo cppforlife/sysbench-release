@@ -1,0 +1,16 @@
+set -e
+
+apt-get -y install mysql-client
+
+mkdir -p $BOSH_INSTALL_TARGET/{bin,lib/x86_64-linux-gnu}
+
+cp    /usr/bin/mysql              $BOSH_INSTALL_TARGET/bin/_mysql
+cp -a /usr/lib/x86_64-linux-gnu/* $BOSH_INSTALL_TARGET/lib/x86_64-linux-gnu/
+
+cat > $BOSH_INSTALL_TARGET/bin/mysql <<EOF
+#!/bin/bash
+export LD_LIBRARY_PATH=/var/vcap/packages/myql-client/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH
+exec /var/vcap/packages/mysql-client/bin/_mysql "\$@"
+EOF
+
+chmod +x $BOSH_INSTALL_TARGET/bin/mysql

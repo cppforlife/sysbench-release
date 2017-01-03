@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+export LOG_DIR=/var/vcap/sys/log/sysbench
+
+mkdir -p $LOG_DIR
+
+<% test = p("test_to_run") %>
+
+<% if_p("#{test}.prepare") do |prepare| %>
+echo "sysbench prepare..."
+time /var/vcap/packages/sysbench/bin/sysbench <%= prepare.join(" ") %> prepare \
+  >>$LOG_DIR/prepare.stdout.log \
+  2>>$LOG_DIR/prepare.stderr.log
+<% end %>
+
+echo "sysbench run..."
+time /var/vcap/packages/sysbench/bin/sysbench <%= p("#{test}.run").join(" ") %> run \
+  >>$LOG_DIR/run.stdout.log \
+  2>>$LOG_DIR/run.stderr.log
+
+<% if_p("#{test}.cleanup") do |cleanup| %>
+echo "sysbench cleanup..."
+time /var/vcap/packages/sysbench/bin/sysbench <%= cleanup.join(" ") %> cleanup \
+  >>$LOG_DIR/cleanup.stdout.log \
+  2>>$LOG_DIR/cleanup.stderr.log
+<% end %>
+
+echo "done."

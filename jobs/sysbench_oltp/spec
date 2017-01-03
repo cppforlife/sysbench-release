@@ -1,0 +1,43 @@
+---
+name: sysbench_oltp
+
+templates:
+  run: bin/run
+  mysql: bin/mysql
+  mysql_no_db: bin/mysql_no_db
+  sysbench: bin/sysbench
+
+consumes:
+- name: db
+  type: db
+
+packages:
+- mysql-client
+- sysbench
+
+properties:
+  database:
+    description: Database to use for testing
+    default: sysbench
+
+  test_to_run:
+    description: Selects which test to run (tests.custom or one of the suggested tests below)
+    default: tests.custom
+
+  tests.custom:
+    description: |
+      See http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html for usage.
+      You can specify prepare and run stages for --oltp tests.
+
+  # http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html
+  tests.example:
+    description: Example test
+    default:
+      prepare:
+      - --oltp-table-size=1000000
+      run:
+      - --oltp-table-size=1000000
+      - --oltp-read-only
+      - --num-threads=16
+      - --batch --batch-delay=60
+      - --max-requests=100000

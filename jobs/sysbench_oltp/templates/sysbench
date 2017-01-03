@@ -1,0 +1,10 @@
+#!/bin/bash
+
+exec /var/vcap/packages/sysbench/bin/sysbench \
+  --mysql-db=<%= p("database") %> \
+  --mysql-host=<%= link("db").instances.first.address %> \
+  --mysql-port=<%= link("db").p("port") %> \
+  --mysql-user=<%= link("db").p("user") %> \
+  --mysql-password=<%= link("db").p("password") %> \
+  --test=oltp \
+  "$@"

@@ -1,0 +1,58 @@
+---
+name: sysbench
+
+description: Used for non-database tests (non-oltp)
+
+templates:
+  run: bin/run
+
+packages:
+- sysbench
+
+properties:
+  test_to_run:
+    description: Selects which test to run (tests.custom or one of the suggested tests below)
+    default: tests.custom
+
+  tests.custom:
+    description: |
+      See http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html for usage.
+      You can specify prepare (optional), run (required) and cleanup (optional) stages.
+    example:
+      run:
+      - --test=cpu --cpu-max-prime=20000
+
+  # Below examples are taken from http://manpages.ubuntu.com/manpages/xenial/man1/sysbench.1.html.
+
+  tests.cpu:
+    description: |
+      This test calculates prime numbers up to a value specified by the 
+      --cpu-max-primes option. Each thread executes the requests concurrently 
+      until either the total number of requests or the total execution time 
+      exceed the limits specified with the common command line options.
+    default:
+      run:
+      - --test=cpu --cpu-max-prime=20000
+
+  tests.threads:
+    description: |
+      This test was written to benchmark scheduler performance, more
+      specifically the cases when a scheduler has a large number of
+      threads competing for some set of mutexes.
+    default:
+      run:
+      - --test=threads --num-threads=64 --thread-yields=100 --thread-locks=2
+
+  tests.fileio:
+    description: |
+      This test prepare command creates 128 files with the
+      total size of 3 GB in the current directory, run command
+      runs the actual benchmark and displays the results upon completion,
+      and cleanup command removes the files used for the test.
+    default:
+      prepare:
+      - --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw
+      run:
+      - --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw
+      cleanup:
+      - --test=fileio --num-threads=16 --file-total-size=3G --file-test-mode=rndrw

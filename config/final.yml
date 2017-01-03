@@ -1,0 +1,5 @@
+name: sysbench
+blobstore:
+  provider: s3
+  options:
+    bucket_name: sysbench-blobs

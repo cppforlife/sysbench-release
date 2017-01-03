@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec /var/vcap/jobs/sysbench_oltp/bin/mysql_no_db --database=<%= p("database") %> "$@"

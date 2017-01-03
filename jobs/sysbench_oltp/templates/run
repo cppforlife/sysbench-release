@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+export LOG_DIR=/var/vcap/sys/log/sysbench_oltp
+
+mkdir -p $LOG_DIR
+
+echo "drop/create database..."
+time /var/vcap/jobs/sysbench_oltp/bin/mysql_no_db -e \
+  "DROP DATABASE IF EXISTS <%= p("database") %>; CREATE DATABASE <%= p("database") %>;" \
+  >>$LOG_DIR/stdout.log \
+  2>>$LOG_DIR/stderr.log
+
+<% test = p("test_to_run") %>
+
+echo "sysbench prepare..."
+time /var/vcap/jobs/sysbench_oltp/bin/sysbench <%= p("#{test}.prepare").join(" ") %> prepare \
+  >>$LOG_DIR/prepare.stdout.log \
+  2>>$LOG_DIR/prepare.stderr.log
+
+echo "sysbench run..."
+time /var/vcap/jobs/sysbench_oltp/bin/sysbench <%= p("#{test}.run").join(" ") %> run \
+  >>$LOG_DIR/run.stdout.log \
+  2>>$LOG_DIR/run.stderr.log
+
+echo "done."
